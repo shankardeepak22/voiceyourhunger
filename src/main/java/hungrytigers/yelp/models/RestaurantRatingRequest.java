@@ -32,15 +32,14 @@ public class RestaurantRatingRequest {
         this.latitude = latitude;
     }
 
-
     public String getUri() {
         StringBuilder uriSb = new StringBuilder();
 
         uriSb.append(URI.BASE);
         uriSb.append(URI.RATINGS);
         uriSb.append("?term=").append(this.restaurantName);
-        uriSb.append("?longitude=").append(this.longitude);
-        uriSb.append("?latitude=").append(this.latitude);
+        uriSb.append("&longitude=").append(this.longitude);
+        uriSb.append("&latitude=").append(this.latitude);
 
         return uriSb.toString();
     }
