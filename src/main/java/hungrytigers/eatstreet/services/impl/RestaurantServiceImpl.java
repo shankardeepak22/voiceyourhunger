@@ -4,6 +4,7 @@ import hungrytigers.eatstreet.Exceptions.BadRequestException;
 import hungrytigers.eatstreet.models.*;
 import hungrytigers.eatstreet.services.RestaurantService;
 import hungrytigers.eatstreet.util.URI;
+import hungrytigers.yelp.models.RestaurantRatingRequest;
 import hungrytigers.yelp.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -34,6 +35,11 @@ public class RestaurantServiceImpl implements RestaurantService {
             FilteredRestaurant filteredRestaurant = new FilteredRestaurant();
             filteredRestaurant.setApiKey(restaurant.getApiKey());
             filteredRestaurant.setName(restaurant.getName());
+            RestaurantRatingRequest ratingRequest = new RestaurantRatingRequest();
+            ratingRequest.setRestaurantName(restaurant.getName());
+            ratingRequest.setLongitude(restaurant.getLongitude());
+            ratingRequest.setLatitude(restaurant.getLatitude());
+            filteredRestaurant.setRating(ratingService.getRatingForRestaurant(ratingRequest).getRating());
             filteredRestaurants.add(filteredRestaurant);
         }
         return filteredRestaurants;
