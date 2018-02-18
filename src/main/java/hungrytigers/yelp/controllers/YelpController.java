@@ -18,6 +18,6 @@ public class YelpController {
 
     @GetMapping(path = "ratings")
     public Businesses getRestaurantRating(final RestaurantRatingRequest request) {
-        return ratingService.getRatingForRestaurant(request).getBusinesses()[0];
+        return ratingService.getRatingForRestaurant(request);
     }
 }
