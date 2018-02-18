@@ -1,13 +1,14 @@
 package hungrytigers.eatstreet.models;
 
+import hungrytigers.eatstreet.controllers.LocationController;
 import hungrytigers.eatstreet.util.URI;
 
 public class RestaurantDetailRequest {
 
     private String apiKey;
     private String streetAddress;
-    private String latitude;
-    private String longitude;
+    private String latitude = LocationController.LAT;
+    private String longitude = LocationController.LON;
 
     public String getApiKey() {
         return apiKey;

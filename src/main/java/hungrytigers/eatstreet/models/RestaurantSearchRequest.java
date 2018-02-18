@@ -1,14 +1,15 @@
 package hungrytigers.eatstreet.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import hungrytigers.eatstreet.controllers.LocationController;
 import hungrytigers.eatstreet.util.URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RestaurantSearchRequest {
 
     private String streetAddress;
-    private String latitude;
-    private String longitude;
+    private String latitude = LocationController.LAT;
+    private String longitude = LocationController.LON;
     private String method;
     private String pickupRadius;
     private String search;
