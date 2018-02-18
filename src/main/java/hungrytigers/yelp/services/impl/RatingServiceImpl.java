@@ -20,9 +20,10 @@ public class RatingServiceImpl implements RatingService {
         @Override
         public RestaurantRatingResponse getRatingForRestaurant(final RestaurantRatingRequest request) {
 
-
+            System.out.println("URL" + request.getUri());
             ResponseEntity<RestaurantRatingResponse> response = restTemplate.exchange(request.getUri(), HttpMethod.GET, setHeader(), RestaurantRatingResponse.class);
             RestaurantRatingResponse restaurantRatingResponse = response.getBody();
+            //System.out.println("Response-> "+ response.getBody().toString());
             return restaurantRatingResponse;
         }
 

@@ -1,5 +1,6 @@
 package hungrytigers.yelp.controllers;
 
+import hungrytigers.yelp.models.Businesses;
 import hungrytigers.yelp.models.RestaurantRatingRequest;
 import hungrytigers.yelp.models.RestaurantRatingResponse;
 import hungrytigers.yelp.services.RatingService;
@@ -16,7 +17,7 @@ public class YelpController {
     private RatingService ratingService;
 
     @GetMapping(path = "ratings")
-    public RestaurantRatingResponse getRestaurantRating(final RestaurantRatingRequest request) {
-        return ratingService.getRatingForRestaurant(request);
+    public Businesses getRestaurantRating(final RestaurantRatingRequest request) {
+        return ratingService.getRatingForRestaurant(request).getBusinesses()[0];
     }
 }
