@@ -1,5 +1,6 @@
 package hungrytigers.yelp.services.impl;
 
+import hungrytigers.yelp.models.Businesses;
 import hungrytigers.yelp.models.RestaurantRatingRequest;
 import hungrytigers.yelp.models.RestaurantRatingResponse;
 import hungrytigers.yelp.services.RatingService;
@@ -18,27 +19,11 @@ public class RatingServiceImpl implements RatingService {
         private RestTemplate restTemplate;
 
         @Override
-        public RestaurantRatingResponse getRatingForRestaurant(final RestaurantRatingRequest request) {
-
-            System.out.println("URL" + request.getUri());
+        public Businesses getRatingForRestaurant(final RestaurantRatingRequest request) {
             ResponseEntity<RestaurantRatingResponse> response = restTemplate.exchange(request.getUri(), HttpMethod.GET, setHeader(), RestaurantRatingResponse.class);
             RestaurantRatingResponse restaurantRatingResponse = response.getBody();
-            //System.out.println("Response-> "+ response.getBody().toString());
-            return restaurantRatingResponse;
+            return restaurantRatingResponse.getBusinesses()[0];
         }
-
-//        @Override
-//        public Restaurant getRestaurantDetails(final String apiKey, final RestaurantDetailRequest request) {
-//
-//            if (apiKey.equals(request.getApiKey())) {
-//                Restaurant restaurant = restTemplate.exchange(request.getUri(), HttpMethod.GET, setHeader(), Restaurant.class).getBody();
-//                System.out.println(restaurant);
-//                return restaurant;
-//            } else {
-//                throw new BadRequestException("API keys mismatch!");
-//            }
-//
-//        }
 
         private HttpEntity<String> setHeader() {
             HttpHeaders headers = new HttpHeaders();
