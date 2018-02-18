@@ -5,6 +5,8 @@ import hungrytigers.eatstreet.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("restaurants")
 public class RestaurantController {
@@ -13,7 +15,7 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @PostMapping(path = "search")
-    public RestaurantSearchResponse search(@RequestBody final RestaurantSearchRequest request) {
+    public List<FilteredRestaurant> search(@RequestBody final RestaurantSearchRequest request) {
         return restaurantService.search(request);
     }
 
