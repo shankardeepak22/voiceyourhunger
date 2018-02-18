@@ -8,7 +8,6 @@ public class RestaurantRatingResponse {
     private String restaurantId;
     private String restaurantName;
     private String rating;
-    private String reviews[];
 
     public String getRestaurantId() {
         return restaurantId;
@@ -32,13 +31,5 @@ public class RestaurantRatingResponse {
 
     public void setRating(String rating) {
         this.rating = rating;
-    }
-
-    public String[] getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(String[] reviews) {
-        this.reviews = reviews;
     }
 }
