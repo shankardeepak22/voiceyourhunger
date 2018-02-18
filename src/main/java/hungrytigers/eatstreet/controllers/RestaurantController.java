@@ -1,13 +1,9 @@
 package hungrytigers.eatstreet.controllers;
 
-import hungrytigers.eatstreet.models.RestaurantSearchRequest;
-import hungrytigers.eatstreet.models.RestaurantSearchResponse;
+import hungrytigers.eatstreet.models.*;
 import hungrytigers.eatstreet.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("restaurants")
@@ -16,8 +12,17 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping(value = "search")
+    @PostMapping(path = "search")
     public RestaurantSearchResponse search(@RequestBody final RestaurantSearchRequest request) {
         return restaurantService.search(request);
     }
+
+    @PostMapping(path = "{apiKey}")
+    public RestaurantDetailResponse getRestaurantDetails(@PathVariable("apiKey") final String apiKey, @RequestBody final RestaurantDetailRequest request) {
+        return restaurantService.getRestaurantDetails(apiKey, request);
+    }
+
+    /*public MenuCategory[] getMenuFromRestaurant(){
+
+    }*/
 }

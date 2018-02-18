@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Address {
     private String apiKey;
     private String streetAddress;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private String city;
     private String state;
     private String zip;
@@ -36,19 +36,19 @@ public class Address {
         this.streetAddress = streetAddress;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

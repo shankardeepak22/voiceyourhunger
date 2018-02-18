@@ -25,4 +25,9 @@ public class RestaurantSearchResponse {
     public void setRestaurants(Restaurant[] restaurants) {
         this.restaurants = restaurants;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

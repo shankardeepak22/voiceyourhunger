@@ -23,8 +23,8 @@ public class Restaurant {
     private String zip;
     private String[] foodTypes;
     private String phone;
-    private long latitude;
-    private long longitude;
+    private double latitude;
+    private double longitude;
     private float minFreeDelivery;
     private float taxRate;
     private boolean acceptsCash;
@@ -128,19 +128,19 @@ public class Restaurant {
         this.phone = phone;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -254,5 +254,10 @@ public class Restaurant {
 
     public void setZones(DeliveryZone[] zones) {
         this.zones = zones;
+    }
+
+    @Override
+    public String toString() {
+        return this.apiKey;
     }
 }

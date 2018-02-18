@@ -1,10 +1,16 @@
 package hungrytigers.eatstreet.services.impl;
 
-import hungrytigers.eatstreet.Util.URI;
+import hungrytigers.eatstreet.Exceptions.BadRequestException;
+import hungrytigers.eatstreet.models.RestaurantDetailRequest;
+import hungrytigers.eatstreet.models.RestaurantDetailResponse;
 import hungrytigers.eatstreet.models.RestaurantSearchRequest;
 import hungrytigers.eatstreet.models.RestaurantSearchResponse;
 import hungrytigers.eatstreet.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,45 +21,30 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestTemplate restTemplate;
 
     @Override
-    public RestaurantSearchResponse search(RestaurantSearchRequest request) {
+    public RestaurantSearchResponse search(final RestaurantSearchRequest request) {
 
-        RestaurantSearchResponse response = restTemplate.getForObject(getRestUri(request), RestaurantSearchResponse.class);
+        RestaurantSearchResponse response = restTemplate.exchange(request.getUrI(), HttpMethod.GET, setHeader(), RestaurantSearchResponse.class).getBody();
         return response;
     }
 
-    private String getRestUri(RestaurantSearchRequest request) {
-        StringBuilder builder = new StringBuilder(URI.BASE);
-        builder.append(URI.RESTAURANT_SEARCH);
-        if (request != null) {
-            builder.append("?");
-            if ((request.getStreetAddress() == null || request.getStreetAddress() == "") && (request.getLatitude() == null || request.getLongitude() == null)) {
+    @Override
+    public RestaurantDetailResponse getRestaurantDetails(final String apiKey, final RestaurantDetailRequest request) {
 
-            } else {
-                if (request.getStreetAddress() != null && request.getStreetAddress() != "") {
-                    builder.append("street-address=" + request.getStreetAddress());
-                }
-                if ((request.getLongitude() != null && request.getLongitude() != "") && (request.getLatitude() != null && request.getLatitude() != "")) {
-                    builder.append("&");
-                    builder.append("latitude=" + request.getLatitude());
-                    builder.append("&");
-                    builder.append("longitude=" + request.getLongitude());
-                }
-                if (request.getMethod() != null && request.getMethod() != "") {
-                    builder.append("&");
-                    builder.append("method=" + request.getMethod());
-                }
-                if (request.getPickupRadius() != null && request.getPickupRadius() != "") {
-                    builder.append("&");
-                    builder.append("pickup-radius=" + request.getPickupRadius());
-                }
-                if (request.getSearch() != null && request.getSearch() != "") {
-                    builder.append("&");
-                    builder.append("search=" + request.getSearch());
-                }
-            }
-
+        if (apiKey.equals(request.getApiKey())) {
+            System.out.println(request.getUri());
+            ResponseEntity<RestaurantDetailResponse> responseEntity = restTemplate.exchange(request.getUri(), HttpMethod.GET, setHeader(), RestaurantDetailResponse.class);
+            RestaurantDetailResponse response = responseEntity.getBody();
+            return response;
+        } else {
+            throw new BadRequestException("API keys mismatch!");
         }
 
-        return builder.toString();
+    }
+
+    private HttpEntity<String> setHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Access-Token", "561444e8ee2c5f5c");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return entity;
     }
 }
