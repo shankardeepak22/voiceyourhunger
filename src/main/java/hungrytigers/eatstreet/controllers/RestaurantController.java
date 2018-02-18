@@ -24,7 +24,8 @@ public class RestaurantController {
         return restaurantService.getRestaurantDetails(apiKey, request);
     }
 
-    /*public MenuCategory[] getMenuFromRestaurant(){
-
-    }*/
+    @GetMapping(path = "{apiKey}/menu")
+    public MenuCategory[] getMenuFromRestaurant(@PathVariable("apiKey") final String apiKey) {
+        return restaurantService.getMenuForRestaurant(apiKey);
+    }
 }

@@ -3,8 +3,7 @@ package hungrytigers.eatstreet.services.impl;
 import hungrytigers.eatstreet.Exceptions.BadRequestException;
 import hungrytigers.eatstreet.models.*;
 import hungrytigers.eatstreet.services.RestaurantService;
-import hungrytigers.yelp.models.RestaurantRatingRequest;
-import hungrytigers.yelp.models.RestaurantRatingResponse;
+import hungrytigers.eatstreet.util.URI;
 import hungrytigers.yelp.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -35,12 +34,6 @@ public class RestaurantServiceImpl implements RestaurantService {
             FilteredRestaurant filteredRestaurant = new FilteredRestaurant();
             filteredRestaurant.setApiKey(restaurant.getApiKey());
             filteredRestaurant.setName(restaurant.getName());
-            RestaurantRatingRequest restaurantRatingRequest = new RestaurantRatingRequest();
-            restaurantRatingRequest.setLatitude(restaurant.getLatitude());
-            restaurantRatingRequest.setLongitude(restaurant.getLongitude());
-            restaurantRatingRequest.setRestaurantName(restaurant.getName());
-            RestaurantRatingResponse restaurantRatingResponse = ratingService.getRatingForRestaurant(restaurantRatingRequest);
-            filteredRestaurant.setRating(restaurantRatingResponse.getRating());
             filteredRestaurants.add(filteredRestaurant);
         }
         return filteredRestaurants;
@@ -50,7 +43,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantDetailResponse getRestaurantDetails(final String apiKey, final RestaurantDetailRequest request) {
 
         if (apiKey.equals(request.getApiKey())) {
-            System.out.println(request.getUri());
             ResponseEntity<RestaurantDetailResponse> responseEntity = restTemplate.exchange(request.getUri(), HttpMethod.GET, setHeader(), RestaurantDetailResponse.class);
             RestaurantDetailResponse response = responseEntity.getBody();
             return response;
@@ -58,6 +50,17 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new BadRequestException("API keys mismatch!");
         }
 
+    }
+
+    @Override
+    public MenuCategory[] getMenuForRestaurant(String apiKey) {
+        if (apiKey != null && apiKey != "") {
+            StringBuilder uriBuilder = new StringBuilder(URI.BASE).append(URI.RESTAURANT_MENU).append(apiKey + "/menu");
+            ResponseEntity<MenuCategory[]> responseEntity = restTemplate.exchange(uriBuilder.toString(), HttpMethod.GET, setHeader(), MenuCategory[].class);
+            return responseEntity.getBody();
+        } else {
+            throw new BadRequestException("API key is invalid!");
+        }
     }
 
     private HttpEntity<String> setHeader() {

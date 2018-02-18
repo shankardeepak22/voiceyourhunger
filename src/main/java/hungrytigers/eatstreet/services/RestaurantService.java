@@ -8,4 +8,6 @@ public interface RestaurantService {
     List<FilteredRestaurant> search(final RestaurantSearchRequest request);
 
     RestaurantDetailResponse getRestaurantDetails(final String apiKey, RestaurantDetailRequest request);
+
+    MenuCategory[] getMenuForRestaurant(final String apiKey);
 }
